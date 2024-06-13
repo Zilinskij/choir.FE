@@ -1,0 +1,130 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: lightgrey;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.button {
+  width: 100%;
+  height: 50px;
+  margin-bottom: 2%;
+  text-align: center;
+  font-size: large;
+  border-radius: 10px;
+  border: 1px solid black;
+  background-color: floralwhite;
+  color: black;
+  box-shadow: 0px 0px 5px 0px rgb(90, 70, 0);
+}
+
+.button-modal {
+  width: auto;
+  height: auto;
+  margin-bottom: 2%;
+  text-align: center;
+  font-size: large;
+  border-radius: 10px;
+  border: 1px solid rgb(199, 159, 159);
+  background-color: floralwhite;
+  color: black;
+  box-shadow: 0px 0px 5px 0px rgb(90, 70, 0);
+}
+
+button:hover {
+  background-color: #b3acac;
+  transition: 0.8s;
+}
+
+h2 {
+  text-align: center;
+  font-style: italic;
+}
+
+.card {
+  width: 100%;
+  margin: 20px 0px;
+  border: 2px solid green;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-around;
+  padding: 1% 0%;
+}
+
+.footer {
+display: block;
+justify-content: center;
+margin: 5%;
+}
+
+pre {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: medium;
+}
+
+li {
+  border: 1px solid grey;
+  border-radius: 0em 0.5em 0em ;
+  padding: 0.5em;
+  margin: 0.4em;
+  background-color: #e4e4e4;
+  box-shadow: 0em 0em 0.3em 0em rgb(133, 131, 124);;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Півпрозорий чорний колір фону */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* opacity: 0;
+  transition: opacity 0.3s ease-out; */
+}
+
+
+.modal {
+  position: relative;
+  background-color: white;
+  padding: 2.5em;
+  border-radius: 8px;
+  max-width: 80%;
+  max-height: 80%;
+  overflow: auto;
+  /* opacity: 1;
+  transition: opacity 0.3s ease; */
+}
+
+.close-button {
+  position: fixed;
+  top: 10px; /* Відступ від верхнього краю */
+  right: 10px; /* Відступ від правого краю */
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.custom-text {
+  font-size: 16px;
+  color: rgb(0, 0, 0);
+}
