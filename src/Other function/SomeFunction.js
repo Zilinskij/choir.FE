@@ -160,7 +160,7 @@ export function SongSearch() {
         size="small"
         variant="outlined"
         disabled={isSearching}
-      sx={{color: 'yellow', backgroundColor: 'lightgreen'}}>
+      sx={{color: 'green', backgroundColor: 'lightgreen'}}>
         Пошук
       </Button>
       <Button

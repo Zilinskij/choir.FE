@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PeopleBtn, SortOfSongBogorodychna, SortOfSongGimn, SortOfSongPovstanska, AllOfSongs } from '../Buttons.js';
+import { PeopleBtn, SortOfSongBogorodychna, SortOfSongGimn, SortOfSongPovstanska, AllOfSongs, SortOfSongDoHrysta } from '../Buttons.js';
 import { SongSearch } from '../Other function/SomeFunction.js';
 import { Button } from '@mui/material';
 
@@ -11,6 +11,7 @@ export default function Footer() {
             <SortOfSongGimn />
             <SortOfSongPovstanska />
             <SortOfSongBogorodychna />
+            <SortOfSongDoHrysta />
             <SongSearch />
         </div>
     )
