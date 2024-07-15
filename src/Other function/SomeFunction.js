@@ -36,7 +36,7 @@ export function SongModal({ isOpen, handleClose, nazva, text }) {
 }
 
 export function ScrollSong({ isOpen, handleClose, nazva, text }) {
-  const [scroll, setScroll] = useState('paper');
+  const [scroll] = useState('paper');
   const [fontSize, setFontSize] = useState(16);
 
   const increaseFontSize = () => {
