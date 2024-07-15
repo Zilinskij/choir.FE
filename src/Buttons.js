@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Modal from 'react-modal';
-import { ScrollSong, SortOfSongs } from './Other function/SomeFunction';
-import Footer from './Footer/Footer'; 
+import { SortOfSongs } from './Other function/SomeFunction';
 
 export function HeadBtn({ text }) {
     function handlePlayClick() {
