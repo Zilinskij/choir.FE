@@ -10,4 +10,4 @@
   force = true
 
 [context.production.environment]
-  REACT_APP_API_URL = "https://your-backend-url.com"
+  REACT_APP_API_URL = "https://choir-be-9d9e77855365.herokuapp.com"
