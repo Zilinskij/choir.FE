@@ -18,6 +18,7 @@ export function PeopleBtn() {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [showData, setShowData] = useState(false);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         const isDataFetched = localStorage.getItem('isDataFetched');
@@ -29,7 +30,7 @@ export function PeopleBtn() {
     const fetchData = async () => {
         setIsLoading(true);
         try {
-            const response = await fetch('/people');
+            const response = await fetch(`${apiUrl}/people`);
             const jsonData = await response.json();
             setData(jsonData);
             setShowData(true);

@@ -192,6 +192,7 @@ export function SortOfSongs({ zapyt, typeOfSong}) {
   const [selectedNazva, setSelectedNazva] = useState('');
   const [selectedText, setSelectedText] = useState('');
   const [selectedSongIndex, setSelectedSongIndex] = useState(null);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const isDataFetched = localStorage.getItem('isDataFetched');
@@ -203,7 +204,7 @@ export function SortOfSongs({ zapyt, typeOfSong}) {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(zapyt);
+      const response = await fetch(`${apiUrl}${zapyt}`);
       const jsonData = await response.json();
       setData(jsonData);
       setShowData(true);
