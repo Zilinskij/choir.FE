@@ -98,6 +98,7 @@ export function SongSearch() {
   const [error, setError] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleSearch = async () => {
     if (!searchTerm.trim()) {
