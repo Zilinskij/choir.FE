@@ -106,7 +106,7 @@ export function SongSearch() {
     }
     setIsSearching(true);
     try {
-      const response = await axios.post('/search-nazva', { searchTerm });
+      const response = await axios.post(`${apiUrl}/search-nazva`, { searchTerm });
       setSearchResults(response.data.map((value, index) => ({ id: `nazva-${index}`, value })));
       setSelectedSong(null);
       setSongText('');
@@ -126,7 +126,7 @@ export function SongSearch() {
 
   const handleSongClick = async (songId, songName) => {
     try {
-      const response = await axios.post('/search-song-text', { searchTerm: songName });
+      const response = await axios.post(`${apiUrl}/search-song-text`, { searchTerm: songName });
       setSelectedSong(songName);
       setSongText(response.data[0]);
       setIsModalOpen(true);
