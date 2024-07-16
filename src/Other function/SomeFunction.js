@@ -81,7 +81,7 @@ export function ScrollSong({ isOpen, handleClose, nazva, text }) {
           </SongText>
         </StyledDialogContentText>
       </DialogContent>
-      <DialogActions  fontSize={fontSize}>
+      <DialogActions fontSize={fontSize}>
         <IconButton onClick={increaseFontSize}>+</IconButton>
         <IconButton onClick={decreaseFontSize}>-</IconButton>
         <IconButton onClick={handleClose} color="primary">Назад</IconButton>
@@ -159,21 +159,21 @@ export function SongSearch() {
         size="small"
         variant="outlined"
         disabled={isSearching}
-      sx={{color: 'green', backgroundColor: 'lightgreen'}}>
+        sx={{ color: 'green', backgroundColor: 'lightgreen' }}>
         Пошук
       </Button>
       <Button
         onClick={() => { clearResults() }}
-       size="small"
-       variant="outlined"
+        size="small"
+        variant="outlined"
         disabled={isSearching}
-      sx={{ marginLeft: '2%', color: 'red', backgroundColor: 'pink'}}>
-      Очистити
+        sx={{ marginLeft: '2%', color: 'red', backgroundColor: 'pink' }}>
+        Очистити
       </Button>
       {isSearching && <p>Зачекайте, результати шукаються...</p>}
       <ol>
         {searchResults.map((result) => (
-          <li key={result.id} style={{ cursor: 'pointer'}} onClick={() => handleSongClick(result.id, result.value)}>
+          <li key={result.id} style={{ cursor: 'pointer' }} onClick={() => handleSongClick(result.id, result.value)}>
             {result.value}
           </li>
         ))}
@@ -185,7 +185,7 @@ export function SongSearch() {
   );
 }
 
-export function SortOfSongs({ zapyt, typeOfSong}) {
+export function SortOfSongs({ zapyt, typeOfSong }) {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showData, setShowData] = useState(false);
@@ -193,6 +193,7 @@ export function SortOfSongs({ zapyt, typeOfSong}) {
   const [selectedText, setSelectedText] = useState('');
   const [selectedSongIndex, setSelectedSongIndex] = useState(null);
   const apiUrl = process.env.REACT_APP_API_URL;
+  console.log(apiUrl);
 
   useEffect(() => {
     const isDataFetched = localStorage.getItem('isDataFetched');
@@ -213,8 +214,6 @@ export function SortOfSongs({ zapyt, typeOfSong}) {
       console.error('Помилка під час отримання даних:', error);
     } finally {
       setIsLoading(false);
-      console.log(apiUrl);
-
     }
   }
 
