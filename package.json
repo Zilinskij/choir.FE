@@ -17,7 +17,7 @@
     "react-modal": "^3.16.1",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "7.21.11"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.17.0",
@@ -48,5 +48,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://choir-be-9d9e77855365.herokuapp.com/"
+  "proxy": "http://localhost:3030"
 }
