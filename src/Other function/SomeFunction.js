@@ -193,7 +193,6 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
   const [selectedText, setSelectedText] = useState('');
   const [selectedSongIndex, setSelectedSongIndex] = useState(null);
   const apiUrl = process.env.REACT_APP_API_URL;
-  console.log(apiUrl);
 
   useEffect(() => {
     const isDataFetched = localStorage.getItem('isDataFetched');
