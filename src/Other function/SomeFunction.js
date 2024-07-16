@@ -213,6 +213,8 @@ export function SortOfSongs({ zapyt, typeOfSong}) {
       console.error('Помилка під час отримання даних:', error);
     } finally {
       setIsLoading(false);
+      console.log(apiUrl);
+
     }
   }
 
