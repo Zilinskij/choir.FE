@@ -5,6 +5,6 @@
 
 [[redirects]]
   from = "/api/*"
-  to = "https://choir-be-9d9e77855365.herokuapp.com/:splat"
+  to = "https://choir-be-9d9e77855365.herokuapp.com/"
   status = 200
   force = true
