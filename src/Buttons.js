@@ -114,3 +114,11 @@ export function SortOfSongDoHrysta() {
         <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} />
     )
 }
+
+export function ProbnaKnopka() {
+    let typeOfSong = "probna";
+    let zapyt = "";
+    return (
+        <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} />
+    )
+}
