@@ -11,7 +11,6 @@ export default function Footer() {
             <SortOfSongBogorodychna />
             <SortOfSongDoHrysta />
             <SongSearch />
-            <ProbnaKnopka />
         </div>
     )
 }
