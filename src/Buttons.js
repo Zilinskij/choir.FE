@@ -131,3 +131,11 @@ export function SortOfSongStrasni() {
         <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} />
     )
 }
+
+export function SortOfSongInshiCerkovni() {
+    let zapyt = "/inshi-cerkovni";
+    let typeOfSong = "Інші церковні пісні";
+    return (
+        <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} />
+    )
+}
