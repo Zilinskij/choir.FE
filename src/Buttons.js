@@ -114,3 +114,12 @@ export function SortOfSongDoHrysta() {
         <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} />
     )
 }
+
+
+export function SortOfSongBoga() {
+    let zapyt = "/doboga";
+    let typeOfSong = "До Бога";
+    return (
+        <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} />
+    )
+}

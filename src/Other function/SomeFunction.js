@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import { IconButton, Typography } from '@mui/material';
 import { styled } from '@mui/system';
+import { ButtonNoty } from '../Components/component';
 
 let StyledDialogContentText = styled('div')(({ theme }) => ({
   backgroundColor: 'white',  // Приклад: світло-сірий фон
@@ -194,6 +195,7 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
   const [selectedText, setSelectedText] = useState('');
   const [selectedSongIndex, setSelectedSongIndex] = useState(null);
   const apiUrl = process.env.REACT_APP_API_URL;
+  // const [error, setError] = useState('');
 
   useEffect(() => {
     const isDataFetched = localStorage.getItem('isDataFetched');
@@ -217,7 +219,6 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
     }
   }
 
-
   const handleHideData = () => {
     setShowData(false);
   };
@@ -232,6 +233,20 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
     setSelectedSongIndex(null);
     setSelectedNazva('');
     setSelectedText('');
+  };
+
+  const handleNoteClick = async (nazva) => {
+    try {
+      const response = await axios.post(`${apiUrl}/get-notes`, { nazva });
+      if (response.data.notes) {
+        window.location.href = response.data.notes;
+      } else {
+        alert('Ноти не знайдено');
+      }
+    } catch (error) {
+      console.error('Помилка отримання нот:', error);
+      alert('Виникла помилка під час отримання нот');
+    }
   };
 
   return (
@@ -260,21 +275,31 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
           <i>
             <h3>Список пісень:</h3>
           </i>
-          <ol>
-            {data.map((item, index) => (
-              <li
-                style={{ cursor: 'pointer' }}
-                key={index} onClick={() => handleSongClick(index, item.nazva, item.text)}>
-                {item.nazva}
-              </li>
-            ))}
-          </ol>
+          <div style={{ position: 'relative' }}>
+            <ol>
+              {data.map((item, index) => (
+                <span
+                  style={{
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    position: 'relative'
+                  }}
+                  key={index}
+                  onClick={() => handleSongClick(index, item.nazva, item.text)}>
+                  <li style={{flex: 1}}>{item.nazva}</li>
+                  <ButtonNoty nazva='ноти' onClick={() => handleNoteClick(item.nazva)} />
+                </span>))}
+            </ol>
+          </div>
           <ScrollSong isOpen={selectedSongIndex !== null}
             handleClose={handleCloseModal}
             nazva={selectedNazva}
             text={selectedText} />
         </div>
-      ) : null}
-    </div>
+  ) : null
+}
+    </div >
   );
 }
