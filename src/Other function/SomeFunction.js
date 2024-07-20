@@ -7,7 +7,6 @@ import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import { IconButton, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-import { ButtonNoty } from '../Components/component';
 
 let StyledDialogContentText = styled('div')(({ theme }) => ({
   backgroundColor: 'white',  // Приклад: світло-сірий фон
@@ -21,6 +20,18 @@ let SongText = styled('pre')(({ fontSize }) => ({
   whiteSpace: 'pre-wrap',  // Текст переноситься відповідно до ширини контейнера
   marginTop: '2em',
 }));
+
+let ButtonNoty = ({ onClick, nazva }) => {
+  return (
+    <button className="button-noty"
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }} style={{ marginLeft: '1em' }}>
+      {nazva}
+    </button>
+  );
+};
 
 export function SongModal({ isOpen, handleClose, nazva, text }) {
   if (!isOpen) return null;
@@ -195,7 +206,6 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
   const [selectedText, setSelectedText] = useState('');
   const [selectedSongIndex, setSelectedSongIndex] = useState(null);
   const apiUrl = process.env.REACT_APP_API_URL;
-  // const [error, setError] = useState('');
 
   useEffect(() => {
     const isDataFetched = localStorage.getItem('isDataFetched');

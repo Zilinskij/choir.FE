@@ -1,4 +1,4 @@
-import { PeopleBtn, SortOfSongBogorodychna, SortOfSongGimn, SortOfSongPovstanska, AllOfSongs, SortOfSongDoHrysta, SortOfSongBoga } from '../Buttons.js';
+import { PeopleBtn, SortOfSongBogorodychna, SortOfSongGimn, SortOfSongPovstanska, AllOfSongs, SortOfSongDoHrysta, SortOfSongBoga, SortOfSongStrasni } from '../Buttons.js';
 import { SongSearch } from '../Other function/SomeFunction.js';
 
 export default function Footer() {
@@ -10,7 +10,8 @@ export default function Footer() {
             <SortOfSongPovstanska />
             <SortOfSongBogorodychna />
             <SortOfSongDoHrysta />
-            <SortOfSongBoga/>
+            <SortOfSongBoga />
+            <SortOfSongStrasni/>
             <SongSearch />
         </div>
     )
