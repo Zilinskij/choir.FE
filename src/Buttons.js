@@ -66,8 +66,7 @@ export function PeopleBtn() {
                         {data.map((person, index) => (
                             <li
                                 style={{
-                                    backgroundColor: 'white',
-                                    fontSize: '1.2em'
+                                    backgroundColor: 'white'
                                 }}
                                 key={index}>{person.first_name} {person.last_name} ({person.tembrname})</li>
                         ))}
@@ -159,7 +158,7 @@ export function OpenSearchButton() {
                 onClick={handleButtonClick}
                 style={{}}
             >
-                Пошук пісні по знайомому тексту
+                Пошук пісні по тексту
             </button>
             {isSearchOpen && <SongSearch />}
         </div>
@@ -181,14 +180,17 @@ export function OpenSortButton() {
             >
                 Типи пісень
             </button>
-            {isSearchOpen && <> <SortOfSongGimn />
-                <SortOfSongPovstanska />
-                <SortOfSongBogorodychna />
-                <SortOfSongDoHrysta />
-                <SortOfSongBoga />
-                <SortOfSongStrasni />
-                <SortOfSongInshiCerkovni />
-            </>}
+            {isSearchOpen &&
+                <div>
+                    <SortOfSongGimn />
+                    <SortOfSongPovstanska />
+                    <SortOfSongBogorodychna />
+                    <SortOfSongDoHrysta />
+                    <SortOfSongBoga />
+                    <SortOfSongStrasni />
+                    <SortOfSongInshiCerkovni />
+                </div>
+            }
         </div>
     );
 }

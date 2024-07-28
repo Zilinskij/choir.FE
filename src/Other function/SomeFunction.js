@@ -26,7 +26,7 @@ let ButtonNoty = ({ onClick, nazva }) => {
       onClick={(e) => {
         e.stopPropagation();
         onClick();
-      }} style={{marginLeft: '1em'}}>
+      }} style={{ marginLeft: '1em' }}>
       {nazva}
     </button>
   );
@@ -76,7 +76,16 @@ export function ScrollSong({ isOpen, handleClose, nazva, text }) {
       scroll={scroll}
       aria-labelledby="scroll-dialog-title"
       aria-describedby="scroll-dialog-description"
-      PaperProps={{ style: { margin: 0, maxWidth: '100%', maxHeight: '100%', width: '100%', height: '100%' } }}
+      PaperProps={{
+        style: {
+          margin: 0,
+          maxWidth: '100%',
+          maxHeight: '100%',
+          width: '100%',
+          height: '100%',
+          color: 'red'
+        }
+      }}
     >
       <DialogContent dividers={scroll === 'paper'}>
         <StyledDialogContentText
@@ -87,7 +96,10 @@ export function ScrollSong({ isOpen, handleClose, nazva, text }) {
           <Typography variant="h6">
             <i>{nazva}</i>
           </Typography>
-          <SongText fontSize={fontSize}>
+          <SongText fontSize={fontSize}
+            style={{
+            
+          }}>
             {text}
           </SongText>
         </StyledDialogContentText>
@@ -214,10 +226,11 @@ export function SongSearch() {
               }}>
               <li key={result.id}
                 style={{
+                  fontWeight: '600',
                   cursor: 'pointer',
-                  fontSize: '1.2em',
+                  fontSize: '1em',
                   backgroundColor: 'white'
-              }} onClick={() => handleSongClick(result.id, result.value)}>
+                }} onClick={() => handleSongClick(result.id, result.value)}>
                 {result.value}
               </li>
               <ButtonNoty onClick={() => handleNoteClick(result.value)} nazva="ноти" />
@@ -328,17 +341,18 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
                     display: 'flex',
                     justifyContent: 'flex-start',
                     alignItems: 'center'
-                   
+
                   }}
                   key={index}>
-                  <li 
-                  onClick={() => handleSongClick(index, item.nazva, item.text)}
-                  style={{
-                    cursor: 'pointer',
-                    backgroundColor: 'white',
-                    width: 'auto',
-                    fontSize: '1.2em'
-                  }}>{item.nazva}</li>
+                  <li
+                    onClick={() => handleSongClick(index, item.nazva, item.text)}
+                    style={{
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      backgroundColor: 'white',
+                      width: 'auto',
+                      fontSize: '1em'
+                    }}>{item.nazva}</li>
                   <ButtonNoty nazva='ноти' onClick={() => handleNoteClick(item.nazva)} />
                 </span>))}
             </ol>
