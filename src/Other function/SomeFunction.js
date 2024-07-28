@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import { IconButton, Typography } from '@mui/material';
 import { styled } from '@mui/system';
@@ -27,7 +26,7 @@ let ButtonNoty = ({ onClick, nazva }) => {
       onClick={(e) => {
         e.stopPropagation();
         onClick();
-      }} style={{ marginLeft: '1em' }}>
+      }} style={{marginLeft: '1em'}}>
       {nazva}
     </button>
   );
@@ -155,9 +154,23 @@ export function SongSearch() {
     setSongText('');
   };
 
+  const handleNoteClick = async (nazva) => {
+    try {
+      const response = await axios.post(`${apiUrl}/get-notes`, { nazva });
+      if (response.data.notes) {
+        window.location.href = response.data.notes;
+      } else {
+        alert('Ноти не знайдено');
+      }
+    } catch (error) {
+      console.error('Помилка отримання нот:', error);
+      alert('Виникла помилка під час отримання нот');
+    }
+  };
+
   return (
     <div>
-      <TextField
+      <input
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
@@ -166,8 +179,14 @@ export function SongSearch() {
             handleSearch();
           }
         }}
-        sx={{ width: '60%', marginRight: '2%', height: '4em' }}
-      />
+        style={{
+          width: '40%',
+          marginRight: '2%',
+          height: '2.5em',
+          marginBotton: '3em',
+          borderRadius: '0.5em',
+          fontSize: '1.2em'
+        }} />
       <Button onClick={() => { clearResults(); handleSearch(); }}
         size="small"
         variant="outlined"
@@ -184,16 +203,32 @@ export function SongSearch() {
         Очистити
       </Button>
       {isSearching && <p>Зачекайте, результати шукаються...</p>}
-      <ol>
-        {searchResults.map((result) => (
-          <li key={result.id} style={{ cursor: 'pointer' }} onClick={() => handleSongClick(result.id, result.value)}>
-            {result.value}
-          </li>
-        ))}
-      </ol>
+      <div style={{ position: 'relative' }}>
+        <ol>
+          {searchResults.map((result) => (
+            <span
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-start'
+              }}>
+              <li key={result.id}
+                style={{
+                  cursor: 'pointer',
+                  fontSize: '1.2em',
+                  backgroundColor: 'white'
+              }} onClick={() => handleSongClick(result.id, result.value)}>
+                {result.value}
+              </li>
+              <ButtonNoty onClick={() => handleNoteClick(result.value)} nazva="ноти" />
+            </span>
+          ))}
+        </ol>
+      </div>
       {error && <p>{error}</p>}
 
       <ScrollSong isOpen={isModalOpen} handleClose={handleCloseModal} nazva={selectedSong} text={songText} />
+
     </div>
   );
 }
@@ -285,20 +320,25 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
           <i>
             <h3>Список пісень:</h3>
           </i>
-          <div style={{ position: 'relative' }}>
+          <div>
             <ol>
               {data.map((item, index) => (
                 <span
                   style={{
-                    cursor: 'pointer',
                     display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    position: 'relative'
+                    justifyContent: 'flex-start',
+                    alignItems: 'center'
+                   
                   }}
-                  key={index}
-                  onClick={() => handleSongClick(index, item.nazva, item.text)}>
-                  <li style={{flex: 1}}>{item.nazva}</li>
+                  key={index}>
+                  <li 
+                  onClick={() => handleSongClick(index, item.nazva, item.text)}
+                  style={{
+                    cursor: 'pointer',
+                    backgroundColor: 'white',
+                    width: 'auto',
+                    fontSize: '1.2em'
+                  }}>{item.nazva}</li>
                   <ButtonNoty nazva='ноти' onClick={() => handleNoteClick(item.nazva)} />
                 </span>))}
             </ol>
@@ -308,8 +348,8 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
             nazva={selectedNazva}
             text={selectedText} />
         </div>
-  ) : null
-}
+      ) : null
+      }
     </div >
   );
 }

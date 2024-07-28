@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SortOfSongs } from './Other function/SomeFunction';
+import { SongSearch } from './Other function/SomeFunction';
 
 export function HeadBtn({ text }) {
     function handlePlayClick() {
@@ -63,7 +64,12 @@ export function PeopleBtn() {
                     <i><h3>Наші хористи:</h3></i>
                     <ul>
                         {data.map((person, index) => (
-                            <li key={index}>{person.first_name} {person.last_name} ({person.tembrname})</li>
+                            <li
+                                style={{
+                                    backgroundColor: 'white',
+                                    fontSize: '1.2em'
+                                }}
+                                key={index}>{person.first_name} {person.last_name} ({person.tembrname})</li>
                         ))}
                     </ul>
                 </div>
@@ -138,4 +144,51 @@ export function SortOfSongInshiCerkovni() {
     return (
         <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} />
     )
+}
+
+export function OpenSearchButton() {
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+    const handleButtonClick = () => {
+        setIsSearchOpen(!isSearchOpen);
+    };
+
+    return (
+        <div>
+            <button className='button2'
+                onClick={handleButtonClick}
+                style={{}}
+            >
+                Пошук пісні по знайомому тексту
+            </button>
+            {isSearchOpen && <SongSearch />}
+        </div>
+    );
+}
+
+export function OpenSortButton() {
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+    const handleButtonClick = () => {
+        setIsSearchOpen(!isSearchOpen);
+    };
+
+    return (
+        <div>
+            <button className='button2'
+                onClick={handleButtonClick}
+                style={{ padding: '10px 20px', borderRadius: '5px', cursor: 'pointer' }}
+            >
+                Типи пісень
+            </button>
+            {isSearchOpen && <> <SortOfSongGimn />
+                <SortOfSongPovstanska />
+                <SortOfSongBogorodychna />
+                <SortOfSongDoHrysta />
+                <SortOfSongBoga />
+                <SortOfSongStrasni />
+                <SortOfSongInshiCerkovni />
+            </>}
+        </div>
+    );
 }

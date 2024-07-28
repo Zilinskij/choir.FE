@@ -4,7 +4,23 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: lightgrey;
+  margin: 0; /*Щоб зображення фону охоплювало весь екран без полів */
+  position: relative; /*Відносне позиціонування для псевдоелемента */
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('../images/fotonoty.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  opacity: 0.25; /* Регулюйте прозорість від 0 до 1 */
+  z-index: -1; /* Щоб псевдоелемент був на задньому плані */
 }
 
 code {
@@ -14,15 +30,29 @@ code {
 
 .button {
   width: 100%;
-  height: 50px;
+  height: 3em;
   margin-bottom: 2%;
   text-align: center;
-  font-size: large;
-  border-radius: 10px;
+  font-size: 1.2em;
+  border-radius: 0.5em;
   border: 1px solid black;
-  background-color: floralwhite;
+  background-color: rgb(254, 255, 245);
   color: black;
   box-shadow: 0px 0px 5px 0px rgb(90, 70, 0);
+}
+
+.button2 {
+  width: 100%;
+  height: 3em;
+  margin-bottom: 2%;
+  text-align: center;
+  font-size: 1.2em;
+  font-style: italic;
+  border-radius: 0.5em;
+  border: 1px solid black;
+  background-color: rgb(254, 255, 245);
+  color: black;
+  box-shadow: 0px 0px 5px 0px rgb(92, 76, 18);
 }
 
 .button-modal {
@@ -60,8 +90,8 @@ h2 {
 
 .footer {
 display: block;
-justify-content: center;
-margin: 5%;
+flex: 0 1 auto;
+align-items: center;
 }
 
 pre {
@@ -131,12 +161,13 @@ li {
 }
 
 .button-noty {
-  float: right;
+  /* float: right; */
   border-radius: 0.5em;
   cursor: pointer;
   height: 2.5em;
   background-color: '#ffc107';
   color: 'black';
   border: 'none';
-  transition: 'background-color 2s',
+  margin-left: 1em;
+  /* transition: 'background-color 2s', */
 }
