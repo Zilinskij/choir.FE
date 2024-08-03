@@ -1,10 +1,13 @@
-import { PeopleBtn } from "../Buttons"
+import { PeopleBtn, OpenSearchButton } from "../Buttons"
 
 export default function Header() {
     return (
         <>
             <h2>Хор "Осанна"</h2>
-            <PeopleBtn />
+            <div className="header">
+                <PeopleBtn />
+                <OpenSearchButton />
+            </div>
         </>
     )
 }

@@ -87,11 +87,11 @@ export function AllOfSongs() {
 }
 
 
-export function SortOfSongGimn() {
+export function SortOfSongGimn({ image }) {
     let zapyt = "/gimn";
     let typeOfSong = "Гімни";
     return (
-        <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} />
+        <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} image={image} />
     )
 }
 
@@ -182,7 +182,7 @@ export function OpenSortButton() {
             </button>
             {isSearchOpen &&
                 <div>
-                    <SortOfSongGimn />
+                    <SortOfSongGimn image='/images/гімн.jpg' />
                     <SortOfSongPovstanska />
                     <SortOfSongBogorodychna />
                     <SortOfSongDoHrysta />

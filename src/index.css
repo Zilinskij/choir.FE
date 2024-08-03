@@ -56,6 +56,20 @@ code {
   box-shadow: 0px 0px 5px 0px rgb(92, 76, 18);
 }
 
+.button3 {
+  display: block;
+  width: 100%;
+  height: 3em;
+  margin-bottom: 2%;
+  text-align: center;
+  font-size: 1.2em;
+  border-radius: 0.5em;
+  border: 1px solid black;
+  background-color: rgb(131, 136, 83);
+  color: black;
+  box-shadow: 0px 0px 5px 0px rgb(90, 70, 0);
+}
+
 .button-modal {
   width: auto;
   height: auto;
@@ -79,6 +93,14 @@ h2 {
   font-style: italic;
 }
 
+@media (min-width: 1120px) {
+  .header {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1em;
+  }
+}
+
 .card {
   width: 100%;
   margin: 20px 0px;
@@ -90,9 +112,9 @@ h2 {
 }
 
 .footer {
-display: block;
-flex: 0 1 auto;
-align-items: center;
+  display: block;
+  flex: 0 1 auto;
+  align-items: center;
 }
 
 pre {
@@ -102,18 +124,19 @@ pre {
 
 li {
   border: 1px solid grey;
-  border-radius: 0em 0.5em 0em ;
+  border-radius: 0em 0.5em 0em;
   padding: 0.5em;
   margin: 0.4em;
   background-color: #e4e4e4;
   box-shadow: 0em 0em 0.3em 0em rgb(133, 131, 124);
-  
+
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -125,12 +148,11 @@ li {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Півпрозорий чорний колір фону */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Півпрозорий чорний колір фону */
   display: flex;
   justify-content: center;
   align-items: center;
-  /* opacity: 0;
-  transition: opacity 0.3s ease-out; */
 }
 
 
@@ -142,14 +164,14 @@ li {
   max-width: 80%;
   max-height: 80%;
   overflow: auto;
-  /* opacity: 1;
-  transition: opacity 0.3s ease; */
 }
 
 .close-button {
   position: fixed;
-  top: 10px; /* Відступ від верхнього краю */
-  right: 10px; /* Відступ від правого краю */
+  top: 10px;
+  /* Відступ від верхнього краю */
+  right: 10px;
+  /* Відступ від правого краю */
   background: none;
   border: none;
   cursor: pointer;
@@ -162,7 +184,6 @@ li {
 }
 
 .button-noty {
-  /* float: right; */
   border-radius: 0.5em;
   cursor: pointer;
   height: 2.5em;
@@ -170,5 +191,4 @@ li {
   color: 'black';
   border: 'none';
   margin-left: 1em;
-  /* transition: 'background-color 2s', */
 }

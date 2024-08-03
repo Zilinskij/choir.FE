@@ -246,7 +246,7 @@ export function SongSearch() {
   );
 }
 
-export function SortOfSongs({ zapyt, typeOfSong }) {
+export function SortOfSongs({ zapyt, typeOfSong, image }) {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showData, setShowData] = useState(false);
@@ -311,7 +311,11 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
     <div>
       {!showData && (
         <button
-          style={{ cursor: 'pointer' }}
+          style={{
+            cursor: 'pointer',
+            backgroundImage: `url(${image})`,
+            padding: '10px 20px'
+          }}
           className='button'
           onClick={fetchData} disabled={isLoading}>
           {typeOfSong}
