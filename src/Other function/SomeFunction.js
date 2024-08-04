@@ -98,8 +98,8 @@ export function ScrollSong({ isOpen, handleClose, nazva, text }) {
           </Typography>
           <SongText fontSize={fontSize}
             style={{
-            
-          }}>
+
+            }}>
             {text}
           </SongText>
         </StyledDialogContentText>
@@ -267,7 +267,14 @@ export function SortOfSongs({ zapyt, typeOfSong, image }) {
     try {
       const response = await fetch(`${apiUrl}${zapyt}`);
       const jsonData = await response.json();
-      setData(jsonData);
+      
+      // Додавання поля "hasNotes" для кожного елемента даних
+      const dataWithNotes = await Promise.all(jsonData.map(async (item) => {
+        const notesResponse = await axios.post(`${apiUrl}/get-notes`, { nazva: item.nazva });
+        return { ...item, hasNotes: notesResponse.data.notes };
+      }));
+      
+      setData(dataWithNotes);
       setShowData(true);
       localStorage.setItem('isDataFetched', true);
     } catch (error) {
@@ -357,7 +364,9 @@ export function SortOfSongs({ zapyt, typeOfSong, image }) {
                       width: 'auto',
                       fontSize: '1em'
                     }}>{item.nazva}</li>
-                  <ButtonNoty nazva='ноти' onClick={() => handleNoteClick(item.nazva)} />
+                  {item.hasNotes && (
+                    <ButtonNoty nazva='ноти' onClick={() => handleNoteClick(item.nazva)} />
+                  )}
                 </span>))}
             </ol>
           </div>
