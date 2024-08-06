@@ -48,7 +48,7 @@ export function SongModal({ isOpen, handleClose, nazva, text }) {
 
 export function ScrollSong({ isOpen, handleClose, nazva, text }) {
   const [scroll] = useState('paper');
-  const [fontSize, setFontSize] = useState(16);
+  const [fontSize, setFontSize] = useState(18);
 
   const increaseFontSize = () => {
     setFontSize(prevSize => Math.min(prevSize + 2, 28));
@@ -267,13 +267,12 @@ export function SortOfSongs({ zapyt, typeOfSong, image }) {
     try {
       const response = await fetch(`${apiUrl}${zapyt}`);
       const jsonData = await response.json();
-      
-      // Додавання поля "hasNotes" для кожного елемента даних
+
       const dataWithNotes = await Promise.all(jsonData.map(async (item) => {
         const notesResponse = await axios.post(`${apiUrl}/get-notes`, { nazva: item.nazva });
         return { ...item, hasNotes: notesResponse.data.notes };
       }));
-      
+
       setData(dataWithNotes);
       setShowData(true);
       localStorage.setItem('isDataFetched', true);
@@ -352,7 +351,6 @@ export function SortOfSongs({ zapyt, typeOfSong, image }) {
                     display: 'flex',
                     justifyContent: 'flex-start',
                     alignItems: 'center'
-
                   }}
                   key={index}>
                   <li
@@ -378,5 +376,89 @@ export function SortOfSongs({ zapyt, typeOfSong, image }) {
       ) : null
       }
     </div >
+  );
+}
+
+export function Videos({ apiUrl }) {
+  const [videos, setVideos] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showVideos, setShowVideos] = useState(false);
+
+
+  const fetchVideos = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`${apiUrl}/videos`);
+      setVideos(response.data);
+      setShowVideos(true);
+    } catch (error) {
+      console.error('Помилка під час отримання відеофайлів:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleHideVideos = () => {
+    setShowVideos(false);
+  };
+
+  const handleVideoClick = async (nazva) => {
+    try {
+      const response = await axios.post(`${apiUrl}/video-files`, { nazva });
+      if (response.data.video) {
+        window.location.href = response.data.video;
+      } else {
+        alert('Відео не знайдено');
+      }
+    } catch (error) {
+      console.error('Помилка отримання відео:', error);
+      alert('Виникла помилка під час отримання відео');
+    }
+  };
+
+  return (
+    <div>
+      {!showVideos && (
+        <button className='button'
+          style={{ cursor: 'pointer', padding: '10px 20px', borderRadius: '5px' }}
+          onClick={fetchVideos} disabled={isLoading}>
+          Відеофайли
+        </button>
+      )}
+      {showVideos && (
+        <>
+          <button className='button'
+            style={{ cursor: 'pointer', padding: '10px 20px', borderRadius: '5px' }}
+            onClick={handleHideVideos}>
+            Приховати список відеофайлів
+          </button>
+          <ol>
+            {videos.map((video, index) => (
+              <span
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center'
+                }}
+                key={index}>
+                <li
+                  style={{
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    backgroundColor: 'white',
+                    width: 'auto',
+                    fontSize: '1em',
+                    marginBottom: '5px'
+                  }}
+                  onClick={() => handleVideoClick(video.namevideo)}>
+                  {video.namevideo}
+                </li>
+              </span>
+            ))}
+          </ol>
+        </>
+      )}
+      {isLoading && <p>Завантаження відеофайлів...</p>}
+    </div>
   );
 }
