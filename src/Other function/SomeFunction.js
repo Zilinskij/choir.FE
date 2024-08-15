@@ -6,6 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import axios from 'axios';
 import { IconButton, Typography } from '@mui/material';
 import { styled } from '@mui/system';
+import { CloseIcon } from '@chakra-ui/icons';
 
 let StyledDialogContentText = styled('div')(({ theme }) => ({
   backgroundColor: 'white',  // Приклад: світло-сірий фон
@@ -246,13 +247,15 @@ export function SongSearch() {
   );
 }
 
-export function SortOfSongs({ zapyt, typeOfSong, image }) {
-  const [data, setData] = useState(null);
+export function SortOfSongs({ zapyt, typeOfSong }) {
+  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showData, setShowData] = useState(false);
   const [selectedNazva, setSelectedNazva] = useState('');
   const [selectedText, setSelectedText] = useState('');
   const [selectedSongIndex, setSelectedSongIndex] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
@@ -268,10 +271,12 @@ export function SortOfSongs({ zapyt, typeOfSong, image }) {
       const response = await fetch(`${apiUrl}${zapyt}`);
       const jsonData = await response.json();
 
-      const dataWithNotes = await Promise.all(jsonData.map(async (item) => {
-        const notesResponse = await axios.post(`${apiUrl}/get-notes`, { nazva: item.nazva });
-        return { ...item, hasNotes: notesResponse.data.notes };
-      }));
+      const dataWithNotes = await Promise.all(
+        jsonData.map(async (item) => {
+          const notesResponse = await axios.post(`${apiUrl}/get-notes`, { nazva: item.nazva });
+          return { ...item, hasNotes: notesResponse.data.notes };
+        })
+      );
 
       setData(dataWithNotes);
       setShowData(true);
@@ -281,7 +286,7 @@ export function SortOfSongs({ zapyt, typeOfSong, image }) {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   const handleHideData = () => {
     setShowData(false);
@@ -313,17 +318,34 @@ export function SortOfSongs({ zapyt, typeOfSong, image }) {
     }
   };
 
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+  let firstIndex = (currentPage - 1) * itemsPerPage;
+  let lastIndex = currentPage * itemsPerPage;
+
+  const currentPageData = data.slice(
+    firstIndex,
+    lastIndex
+  );
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
     <div>
       {!showData && (
         <button
           style={{
             cursor: 'pointer',
-            backgroundImage: `url(${image})`,
-            padding: '10px 20px'
+            padding: '10px 20px',
+            borderRadius: '5px',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
           }}
           className='button'
-          onClick={fetchData} disabled={isLoading}>
+          onClick={fetchData}
+          disabled={isLoading}
+        >
           {typeOfSong}
         </button>
       )}
@@ -331,51 +353,93 @@ export function SortOfSongs({ zapyt, typeOfSong, image }) {
         <>
           <button
             style={{ cursor: 'pointer' }}
-            className='button' onClick={handleHideData}>
-            Приховати список пісень "<i>{typeOfSong}"</i>
+            className='button'
+            onClick={handleHideData}
+          >
+            Приховати список "<i>{typeOfSong}"</i>
           </button>
+          <div>
+            <i>
+              <h3>Список пісень:</h3>
+            </i>
+            <Dialog
+              open={showData}
+              fullScreen
+              PaperProps={{
+                style: {
+                  backgroundColor: '#FFFAFA'
+                }
+              }}
+            >
+              <CloseIcon
+                onClick={handleHideData}
+                style={{ cursor: 'pointer', position: 'absolute', right: '1em', top: '1em' }}
+                
+              />
+              <ul style={{ listStyleType: 'none' }}>
+                {currentPageData.map((item, index) => (
+                  <span
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'flex-start',
+                      alignItems: 'center'
+                    }}
+                    key={index}
+                  >
+                    <li
+                      onClick={() => handleSongClick(index, item.nazva, item.text)}
+                      style={{
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        backgroundColor: 'white',
+                        width: 'auto',
+                        fontSize: '1em'
+                      }}
+                    >
+                      {index + 1 + (currentPage - 1) * itemsPerPage}. {item.nazva}
+                    </li>
+                    {item.hasNotes && (
+                      <ButtonNoty
+                        nazva='ноти'
+                        onClick={() => handleNoteClick(item.nazva)}
+                      />
+                    )}
+                  </span>
+                ))}
+              </ul>
+              <div>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    disabled={page === currentPage}
+                    style={{
+                      margin: '5px',
+                      padding: '5px 10px',
+                      cursor: 'pointer',
+                      backgroundColor: page === currentPage ? '#CD853F' : '#FFF8DC',
+                      borderRadius: '5px',
+                      color: page === currentPage ? '#FFFAFA' : '#000000'
+                    }}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+            </Dialog>
+          </div>
         </>
       )}
-      {isLoading ? (
-        <p>Завантаження даних...</p>
-      ) : data && showData ? (
-        <div>
-          <i>
-            <h3>Список пісень:</h3>
-          </i>
-          <div>
-            <ol>
-              {data.map((item, index) => (
-                <span
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'flex-start',
-                    alignItems: 'center'
-                  }}
-                  key={index}>
-                  <li
-                    onClick={() => handleSongClick(index, item.nazva, item.text)}
-                    style={{
-                      fontWeight: '600',
-                      cursor: 'pointer',
-                      backgroundColor: 'white',
-                      width: 'auto',
-                      fontSize: '1em'
-                    }}>{item.nazva}</li>
-                  {item.hasNotes && (
-                    <ButtonNoty nazva='ноти' onClick={() => handleNoteClick(item.nazva)} />
-                  )}
-                </span>))}
-            </ol>
-          </div>
-          <ScrollSong isOpen={selectedSongIndex !== null}
-            handleClose={handleCloseModal}
-            nazva={selectedNazva}
-            text={selectedText} />
-        </div>
-      ) : null
-      }
-    </div >
+      {isLoading && <p>Завантаження даних...</p>}
+      {selectedSongIndex !== null && (
+        <ScrollSong
+          isOpen={selectedSongIndex !== null}
+          handleClose={handleCloseModal}
+          nazva={selectedNazva}
+          text={selectedText}
+        />
+      )}
+    </div>
   );
 }
 

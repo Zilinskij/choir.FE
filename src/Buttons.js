@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { SortOfSongs } from './Other function/SomeFunction';
 import { SongSearch } from './Other function/SomeFunction';
+import { Dialog, DialogContent, DialogTitle } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close';
 
 export function HeadBtn({ text }) {
     function handlePlayClick() {
@@ -169,28 +171,48 @@ export function OpenSortButton() {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
 
     const handleButtonClick = () => {
-        setIsSearchOpen(!isSearchOpen);
+        setIsSearchOpen(true);
     };
+
+    const handleClose = () => {
+        setIsSearchOpen(false);
+    }
 
     return (
         <div>
-            <button className='button2'
+            <button
+                className='button'
+                variant='outlined'
                 onClick={handleButtonClick}
-                style={{ padding: '10px 20px', borderRadius: '5px', cursor: 'pointer' }}
+                style={{ padding: '10px 20px', borderRadius: '5px' }}
             >
                 Типи пісень
             </button>
-            {isSearchOpen &&
-                <div>
-                    <SortOfSongGimn image='/images/гімн.jpg' />
+            <Dialog
+                open={isSearchOpen}
+                onClose={handleClose}
+                fullScreen
+                PaperProps={{
+                    style: {
+                        backgroundColor: '#FFFAFA'
+                    }
+                }}
+            >
+                <CloseIcon
+                    onClick={handleClose}
+                    style={{ cursor: 'pointer', position: 'absolute', right: '1em', top: '1em' }}
+                />
+                <DialogTitle>Типи пісень</DialogTitle>
+                <DialogContent>
+                    <SortOfSongGimn />
                     <SortOfSongPovstanska />
                     <SortOfSongBogorodychna />
                     <SortOfSongDoHrysta />
                     <SortOfSongBoga />
                     <SortOfSongStrasni />
                     <SortOfSongInshiCerkovni />
-                </div>
-            }
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }
