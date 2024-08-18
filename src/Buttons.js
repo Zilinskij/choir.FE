@@ -89,11 +89,11 @@ export function AllOfSongs() {
 }
 
 
-export function SortOfSongGimn({ image }) {
+export function SortOfSongGimn() {
     let zapyt = "/gimn";
     let typeOfSong = "Гімни";
     return (
-        <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} image={image} />
+        <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} />
     )
 }
 
@@ -211,8 +211,17 @@ export function OpenSortButton() {
                     <SortOfSongBoga />
                     <SortOfSongStrasni />
                     <SortOfSongInshiCerkovni />
+                    <SortOfSongSvustyn />
                 </DialogContent>
             </Dialog>
         </div>
     );
+}
+
+export function SortOfSongSvustyn() {
+    let zapyt = "/svustyn";
+    let typeOfSong = "Обробки Р.Свистуна";
+    return (
+        <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} />
+    )
 }
