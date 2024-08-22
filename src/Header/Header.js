@@ -1,4 +1,5 @@
 import { PeopleBtn, OpenSearchButton } from "../Buttons"
+import { Nagorody } from "../Other function/SomeFunction"
 
 export default function Header() {
     return (
@@ -7,6 +8,7 @@ export default function Header() {
             <div className="header">
                 <PeopleBtn />
                 <OpenSearchButton />
+                <Nagorody apiUrl={process.env.REACT_APP_API_URL}/>
             </div>
         </>
     )

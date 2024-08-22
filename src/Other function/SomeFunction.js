@@ -147,6 +147,7 @@ export function SongSearch() {
 
   const clearResults = () => {
     setSearchResults([]);
+    setSearchTerm('');
   };
 
   const handleSongClick = async (songId, songName) => {
@@ -200,7 +201,9 @@ export function SongSearch() {
           borderRadius: '0.5em',
           fontSize: '1.2em'
         }} />
-      <Button onClick={() => { clearResults(); handleSearch(); }}
+      <Button onClick={() => {
+        handleSearch();
+      }}
         size="small"
         variant="outlined"
         disabled={isSearching}
@@ -374,7 +377,7 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
               <CloseIcon
                 onClick={handleHideData}
                 style={{ cursor: 'pointer', position: 'absolute', right: '1em', top: '1em' }}
-                
+
               />
               <ul style={{ listStyleType: 'none' }}>
                 {currentPageData.map((item, index) => (
@@ -526,3 +529,93 @@ export function Videos({ apiUrl }) {
     </div>
   );
 }
+
+export function Nagorody({ apiUrl }) {
+  let [nagoroda, setNagoroda] = useState([]);
+  let [isLoading, setIsLoading] = useState(false);
+  let [showNagoroda, setShowNagoroda] = useState(false);
+
+
+  const fetchNagorody = async () => {
+    setIsLoading(true);
+    try {
+      let response = await axios.get(`${apiUrl}/nagorody`);
+      setNagoroda(response.data);
+      setShowNagoroda(true);
+    } catch (error) {
+      console.error('Помилка під час отримання файлів "Нагороди":', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleNagorodaClick = async (nazva) => {
+    try {
+      let response = await axios.post(`${apiUrl}/nagoroda-files`, { nazva });
+      if (response.data.nagoroda) {
+        window.location.href = response.data.nagoroda;
+      } else {
+        alert('Нагороду не знайдено')
+      }
+    } catch (error) {
+      console.error('Помилка під час отримання файлу:', error);
+      alert('Виникла помилка під час отримання файлу')
+    }
+  }
+
+  let handleHightNagoroda = () => {
+    setShowNagoroda(false);
+  }
+
+  return (
+    <div>
+      {!showNagoroda && (
+        <button className='button'
+          style={{ cursor: 'pointer', padding: '10px 20px', borderRadius: '5px' }}
+          onClick={fetchNagorody} disabled={isLoading}>
+          Наші нагороди
+        </button>
+      )}
+      <>
+        <Dialog
+          open={showNagoroda}
+          fullScreen
+          PaperProps={{
+            style: {
+              backgroundColor: '#FFFAFA'
+            }
+          }}
+        >
+          <CloseIcon
+            onClick={handleHightNagoroda}
+            style={{ cursor: 'pointer', position: 'absolute', right: '1em', top: '1em' }}
+          />
+          <ol>
+            {nagoroda.map((nagoroda, index) => (
+              <span
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center'
+                }}
+                key={index}>
+                <li style={{
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  backgroundColor: 'white',
+                  width: 'auto',
+                  fontSize: '1em',
+                  marginBottom: '5px'
+                }}
+                  onClick={() => handleNagorodaClick(nagoroda.namenagoroda)}>
+                  {nagoroda.namenagoroda}
+                </li>
+              </span>
+            ))}
+          </ol>
+        </Dialog>
+      </>
+      {isLoading && <p>Завантаження файлів...</p>}
+    </div>
+  )
+};
