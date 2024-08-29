@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { SortOfSongs } from "./Other function/SomeFunction";
 import { SongSearch } from "./Other function/SomeFunction";
 // import { ReactComponent as IconClose } from "./images/cross-close.svg";
-import { Dialog, DialogContent, DialogTitle } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { IconButton } from '@mui/material';
 
 export function HeadBtn({ text }) {
   function handlePlayClick() {
@@ -157,11 +157,10 @@ export function OpenSearchButton() {
 
   return (
     <div>
-      <button className='button2'
+      <button className='button'
         onClick={handleButtonClick}
-        style={{}}
       >
-        Пошук пісні по тексту
+        <i>Пошук пісні по тексту</i>
       </button>
       {isSearchOpen && <SongSearch />}
     </div>
@@ -207,9 +206,7 @@ export function OpenSortButton() {
     <div>
       <button
         className='button'
-        variant='outlined'
         onClick={handleButtonClick}
-        style={{ padding: '10px 20px', borderRadius: '5px' }}
       >
         Типи пісень
       </button>
@@ -219,15 +216,34 @@ export function OpenSortButton() {
         fullScreen
         PaperProps={{
           style: {
-            backgroundColor: '#FFFAFA'
+            backgroundColor: '#fcfcfa'
           }
         }}
       >
-        <CloseIcon
-          onClick={handleClose}
-          style={{ cursor: 'pointer', position: 'absolute', right: '1em', top: '1em' }}
-        />
-        <DialogTitle>Типи пісень</DialogTitle>
+        <DialogActions
+         style={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          padding: '0.3em',
+          backgroundColor: '#FFFAFA'
+        }}>
+          <DialogTitle
+          >Типи пісень</DialogTitle>
+          <IconButton
+            onClick={handleClose}
+            size='small'
+            style={{
+              borderRadius: '0.3em',
+              backgroundColor: '#b5e1f5',
+              color: '#050505',
+              boxShadow: '0em 0em 0.15em 0.15em #b7d9e8',
+              position: 'absolute',
+              right: '1em',
+              top: '0.5em'
+            }}
+          >Назад
+          </IconButton>
+        </DialogActions>
         <DialogContent>
           <SortOfSongGimn />
           <SortOfSongPovstanska />

@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import axios from 'axios';
 import { IconButton, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-import { CloseIcon } from '@chakra-ui/icons';
+// import { CloseIcon } from '@chakra-ui/icons';
 
 let StyledDialogContentText = styled('div')(({ theme }) => ({
   backgroundColor: 'white',  // Приклад: світло-сірий фон
@@ -16,9 +16,9 @@ let StyledDialogContentText = styled('div')(({ theme }) => ({
 
 let SongText = styled('pre')(({ fontSize }) => ({
   fontSize: `${fontSize}px`,
-  color: 'black',  // Приклад: темно-сірий текст
+  color: 'black',
   whiteSpace: 'pre-wrap',  // Текст переноситься відповідно до ширини контейнера
-  marginTop: '2em',
+  marginTop: '0.5em',
 }));
 
 let ButtonNoty = ({ onClick, nazva }) => {
@@ -80,6 +80,7 @@ export function ScrollSong({ isOpen, handleClose, nazva, text }) {
       PaperProps={{
         style: {
           margin: 0,
+          padding: 0,
           maxWidth: '100%',
           maxHeight: '100%',
           width: '100%',
@@ -88,28 +89,60 @@ export function ScrollSong({ isOpen, handleClose, nazva, text }) {
         }
       }}
     >
-      <DialogContent dividers={scroll === 'paper'}>
+      <DialogActions fontSize={fontSize}
+        style={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          padding: '0.3em',
+          backgroundColor: '#FFFAFA'
+        }}>
+        <Typography variant="h6"
+        >
+          <i>{nazva}</i>
+        </Typography>
+        <IconButton onClick={increaseFontSize}
+          size='small'
+          style={{
+            borderRadius: '0.3em',
+            backgroundColor: '#facdac',
+            color: '#050505',
+            boxShadow: '0em 0em 0.15em 0.15em #facf9b'
+          }}
+        >АА ++</IconButton>
+        <IconButton onClick={decreaseFontSize}
+          size='small'
+          style={{
+            borderRadius: '0.3em',
+            backgroundColor: '#facdac',
+            color: '#050505',
+            boxShadow: '0em 0em 0.15em 0.15em #facf9b'
+          }}
+        >аа --</IconButton>
+        <IconButton onClick={handleClose} color="primary"
+          size='small'
+          style={{
+            borderRadius: '0.3em',
+            backgroundColor: '#b5e1f5',
+            color: '#050505',
+            boxShadow: '0em 0em 0.15em 0.15em #b7d9e8'
+          }}
+        >Назад</IconButton>
+      </DialogActions>
+      <DialogContent dividers={scroll === 'paper'}
+        style={{
+          padding: '0em 1em'
+        }}
+      >
         <StyledDialogContentText
           id="scroll-dialog-description"
           ref={descriptionElementRef}
           tabIndex={-1}
         >
-          <Typography variant="h6">
-            <i>{nazva}</i>
-          </Typography>
-          <SongText fontSize={fontSize}
-            style={{
-
-            }}>
+          <SongText fontSize={fontSize}>
             {text}
           </SongText>
         </StyledDialogContentText>
       </DialogContent>
-      <DialogActions fontSize={fontSize}>
-        <IconButton onClick={increaseFontSize}>+</IconButton>
-        <IconButton onClick={decreaseFontSize}>-</IconButton>
-        <IconButton onClick={handleClose} color="primary">Назад</IconButton>
-      </DialogActions>
     </Dialog>
   );
 }
@@ -338,13 +371,6 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
     <div>
       {!showData && (
         <button
-          style={{
-            cursor: 'pointer',
-            padding: '10px 20px',
-            borderRadius: '5px',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
           className='button'
           onClick={fetchData}
           disabled={isLoading}
@@ -354,17 +380,7 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
       )}
       {showData && (
         <>
-          <button
-            style={{ cursor: 'pointer' }}
-            className='button'
-            onClick={handleHideData}
-          >
-            Приховати список "<i>{typeOfSong}"</i>
-          </button>
           <div>
-            <i>
-              <h3>Список пісень:</h3>
-            </i>
             <Dialog
               open={showData}
               fullScreen
@@ -374,11 +390,20 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
                 }
               }}
             >
-              <CloseIcon
+              <IconButton
                 onClick={handleHideData}
-                style={{ cursor: 'pointer', position: 'absolute', right: '1em', top: '1em' }}
-
-              />
+                size='small'
+                style={{
+                  borderRadius: '0.3em',
+                  backgroundColor: '#b5e1f5',
+                  color: '#050505',
+                  boxShadow: '0em 0em 0.15em 0.15em #b7d9e8',
+                  position: 'absolute',
+                  right: '1em',
+                  top: '0.5em'
+                }}
+              >Назад
+              </IconButton>
               <ul style={{ listStyleType: 'none' }}>
                 {currentPageData.map((item, index) => (
                   <span
@@ -487,7 +512,6 @@ export function Videos({ apiUrl }) {
     <div>
       {!showVideos && (
         <button className='button'
-          style={{ cursor: 'pointer', padding: '10px 20px', borderRadius: '5px' }}
           onClick={fetchVideos} disabled={isLoading}>
           Відеофайли
         </button>
@@ -495,7 +519,6 @@ export function Videos({ apiUrl }) {
       {showVideos && (
         <>
           <button className='button'
-            style={{ cursor: 'pointer', padding: '10px 20px', borderRadius: '5px' }}
             onClick={handleHideVideos}>
             Приховати список відеофайлів
           </button>
@@ -571,7 +594,6 @@ export function Nagorody({ apiUrl }) {
     <div>
       {!showNagoroda && (
         <button className='button'
-          style={{ cursor: 'pointer', padding: '10px 20px', borderRadius: '5px' }}
           onClick={fetchNagorody} disabled={isLoading}>
           Наші нагороди
         </button>
@@ -586,10 +608,20 @@ export function Nagorody({ apiUrl }) {
             }
           }}
         >
-          <CloseIcon
+         <IconButton
             onClick={handleHightNagoroda}
-            style={{ cursor: 'pointer', position: 'absolute', right: '1em', top: '1em' }}
-          />
+            size='small'
+            style={{
+              borderRadius: '0.3em',
+              backgroundColor: '#b5e1f5',
+              color: '#050505',
+              boxShadow: '0em 0em 0.15em 0.15em #b7d9e8',
+              position: 'absolute',
+              right: '1em',
+              top: '0.5em'
+            }}
+          >Назад
+          </IconButton>
           <ol>
             {nagoroda.map((nagoroda, index) => (
               <span

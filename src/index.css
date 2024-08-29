@@ -19,7 +19,7 @@ body::before {
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  opacity: 0.25;
+  opacity: 0.4;
   z-index: -1;
 }
 
@@ -187,7 +187,6 @@ li {
   align-items: center;
   width: 100%;
   min-height: 100%;
- 
 }
 
 .modal-content {
@@ -221,7 +220,7 @@ li {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1em;
+  font-size: 2em;
 }
 
 .custom-text {
