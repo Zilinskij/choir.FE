@@ -6,10 +6,11 @@ import DialogContent from '@mui/material/DialogContent';
 import axios from 'axios';
 import { IconButton, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-// import { CloseIcon } from '@chakra-ui/icons';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 let StyledDialogContentText = styled('div')(({ theme }) => ({
-  backgroundColor: 'white',  // Приклад: світло-сірий фон
+  backgroundColor: 'white',
   padding: theme.spacing(1),
   borderRadius: theme.shape.borderRadius,
 }));
@@ -261,7 +262,145 @@ export function SongSearch() {
                 alignItems: 'center',
                 justifyContent: 'flex-start'
               }}>
-              <li key={result.id}
+              <li className='li-my'
+                key={result.id}
+                style={{
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  fontSize: '1em',
+                  backgroundColor: 'white'
+                }} onClick={() => handleSongClick(result.id, result.value)}>
+                {result.value}
+              </li>
+              <ButtonNoty onClick={() => handleNoteClick(result.value)} nazva="ноти" />
+            </span>
+          ))}
+        </ol>
+      </div>
+      {error && <p>{error}</p>}
+
+      <ScrollSong isOpen={isModalOpen} handleClose={handleCloseModal} nazva={selectedSong} text={songText} />
+
+    </div>
+  );
+}
+
+export function SongSearchByNazva() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [selectedSong, setSelectedSong] = useState(null);
+  const [songText, setSongText] = useState('');
+  const [error, setError] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const apiUrl = process.env.REACT_APP_API_URL;
+
+  const handleSearch = async () => {
+    if (!searchTerm.trim()) {
+      setError('Введіть назву пісні');
+      return;
+    }
+    setIsSearching(true);
+    try {
+      const response = await axios.post(`${apiUrl}/search-by-nazva`, { searchTerm });
+      setSearchResults(response.data.map((value, index) => ({ id: `nazva-${index}`, value })));
+      setSelectedSong(null);
+      setSongText('');
+      setError('');
+    } catch (error) {
+      console.error('Помилка:', error);
+      clearResults();
+      setError('Файл не знайдено');
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const clearResults = () => {
+    setSearchResults([]);
+    setSearchTerm('');
+  };
+
+  const handleSongClick = async (songId, songName) => {
+    try {
+      const response = await axios.post(`${apiUrl}/search-song-text`, { searchTerm: songName });
+      setSelectedSong(songName);
+      setSongText(response.data[0]);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error('Помилка отримання тексту пісні:', error);
+      setError('Не вдалося отримати текст пісні');
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedSong(null);
+    setSongText('');
+  };
+
+  const handleNoteClick = async (nazva) => {
+    try {
+      const response = await axios.post(`${apiUrl}/get-notes`, { nazva });
+      if (response.data.notes) {
+        window.location.href = response.data.notes;
+      } else {
+        alert('Ноти не знайдено');
+      }
+    } catch (error) {
+      console.error('Помилка отримання нот:', error);
+      alert('Виникла помилка під час отримання нот');
+    }
+  };
+
+  return (
+    <div>
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleSearch();
+          }
+        }}
+        style={{
+          width: '40%',
+          marginRight: '2%',
+          height: '2.5em',
+          marginBotton: '3em',
+          borderRadius: '0.5em',
+          fontSize: '1.2em'
+        }} />
+      <Button onClick={() => {
+        handleSearch();
+      }}
+        size="small"
+        variant="outlined"
+        disabled={isSearching}
+        sx={{ color: 'green', backgroundColor: 'lightgreen' }}>
+        Пошук
+      </Button>
+      <Button
+        onClick={() => { clearResults() }}
+        size="small"
+        variant="outlined"
+        disabled={isSearching}
+        sx={{ marginLeft: '2%', color: 'red', backgroundColor: 'pink' }}>
+        Очистити
+      </Button>
+      {isSearching && <p>Зачекайте, результати шукаються...</p>}
+      <div style={{ position: 'relative' }}>
+        <ol>
+          {searchResults.map((result) => (
+            <span
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-start'
+              }}>
+              <li className='li-my'
+                key={result.id}
                 style={{
                   fontWeight: '600',
                   cursor: 'pointer',
@@ -358,12 +497,9 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
   let firstIndex = (currentPage - 1) * itemsPerPage;
   let lastIndex = currentPage * itemsPerPage;
 
-  const currentPageData = data.slice(
-    firstIndex,
-    lastIndex
-  );
+  const currentPageData = data.slice(firstIndex, lastIndex);
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
 
@@ -386,7 +522,7 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
               fullScreen
               PaperProps={{
                 style: {
-                  backgroundColor: '#FFFAFA'
+                  backgroundColor: '#FFFAFA',
                 }
               }}
             >
@@ -404,7 +540,10 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
                 }}
               >Назад
               </IconButton>
-              <ul style={{ listStyleType: 'none' }}>
+              <ul
+                style={{ listStyleType: 'none',}}
+              >
+
                 {currentPageData.map((item, index) => (
                   <span
                     style={{
@@ -414,7 +553,7 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
                     }}
                     key={index}
                   >
-                    <li
+                    <li className='li-my'
                       onClick={() => handleSongClick(index, item.nazva, item.text)}
                       style={{
                         fontWeight: '600',
@@ -435,24 +574,24 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
                   </span>
                 ))}
               </ul>
-              <div>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => handlePageChange(page)}
-                    disabled={page === currentPage}
-                    style={{
-                      margin: '5px',
-                      padding: '5px 10px',
-                      cursor: 'pointer',
-                      backgroundColor: page === currentPage ? '#CD853F' : '#FFF8DC',
-                      borderRadius: '5px',
-                      color: page === currentPage ? '#FFFAFA' : '#000000'
-                    }}
-                  >
-                    {page}
-                  </button>
-                ))}
+              <div
+                style={{
+                  position: 'absolute',
+                  left: '1em',
+                  bottom: '0.8em'
+                }}
+              >
+                <Stack spacing={3}>
+                  <Pagination
+                    count={totalPages}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    variant='outlined'
+                    shape="rounded"
+                    color="primary"
+                    siblingCount={1}
+                  />
+                </Stack>
               </div>
             </Dialog>
           </div>
@@ -531,7 +670,7 @@ export function Videos({ apiUrl }) {
                   alignItems: 'center'
                 }}
                 key={index}>
-                <li
+                <li className='li-my'
                   style={{
                     fontWeight: '600',
                     cursor: 'pointer',
@@ -608,7 +747,7 @@ export function Nagorody({ apiUrl }) {
             }
           }}
         >
-         <IconButton
+          <IconButton
             onClick={handleHightNagoroda}
             size='small'
             style={{
@@ -631,7 +770,8 @@ export function Nagorody({ apiUrl }) {
                   alignItems: 'center'
                 }}
                 key={index}>
-                <li style={{
+                <li className='li-my'
+                  style={{
                   fontWeight: '600',
                   cursor: 'pointer',
                   backgroundColor: 'white',
@@ -707,7 +847,7 @@ export function Fotos({ apiUrl }) {
             }
           }}
         >
-         <IconButton
+          <IconButton
             onClick={handleHightFoto}
             size='small'
             style={{
@@ -730,7 +870,8 @@ export function Fotos({ apiUrl }) {
                   alignItems: 'center'
                 }}
                 key={index}>
-                <li style={{
+                <li className='li-my'
+                  style={{
                   fontWeight: '600',
                   cursor: 'pointer',
                   backgroundColor: 'white',

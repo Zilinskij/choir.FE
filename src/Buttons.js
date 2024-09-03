@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { SortOfSongs } from "./Other function/SomeFunction";
+import { SongSearchByNazva, SortOfSongs } from "./Other function/SomeFunction";
 import { SongSearch } from "./Other function/SomeFunction";
 // import { ReactComponent as IconClose } from "./images/cross-close.svg";
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
@@ -67,7 +67,7 @@ export function PeopleBtn() {
           <i><h3>Наші хористи:</h3></i>
           <ul>
             {data.map((person, index) => (
-              <li
+              <li className="li-my"
                 style={{
                   backgroundColor: 'white'
                 }}
@@ -148,6 +148,31 @@ export function SortOfSongInshiCerkovni() {
   )
 }
 
+export function SortOfSongVoskresni() {
+  let zapyt = "/voskresni";
+  let typeOfSong = "Воскресні";
+  return (
+    <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} />
+  )
+}
+
+export function SortOfSongNarodni() {
+  let zapyt = "/narodni";
+  let typeOfSong = "Народні";
+  return (
+    <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} />
+  )
+}
+
+export function SortOfSongKoljadky() {
+  let zapyt = "/koljada";
+  let typeOfSong = "Колядки";
+  return (
+    <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} />
+  )
+}
+
+
 export function OpenSearchButton() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -163,6 +188,25 @@ export function OpenSearchButton() {
         <i>Пошук пісні по тексту</i>
       </button>
       {isSearchOpen && <SongSearch />}
+    </div>
+  );
+}
+
+export function OpenSearchByNazvaButton() {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  const handleButtonClick = () => {
+    setIsSearchOpen(!isSearchOpen);
+  };
+
+  return (
+    <div>
+      <button className='button'
+        onClick={handleButtonClick}
+      >
+        <i>Пошук пісні по назві</i>
+      </button>
+      {isSearchOpen && <SongSearchByNazva />}
     </div>
   );
 }
@@ -216,17 +260,17 @@ export function OpenSortButton() {
         fullScreen
         PaperProps={{
           style: {
-            backgroundColor: '#fcfcfa'
+            backgroundColor: '#f5f4f2'
           }
         }}
       >
         <DialogActions
-         style={{
-          display: 'flex',
-          justifyContent: 'space-around',
-          padding: '0.3em',
-          backgroundColor: '#FFFAFA'
-        }}>
+          style={{
+            display: 'flex',
+            justifyContent: 'space-around',
+            padding: '0.3em',
+            backgroundColor: '#FFFAFA'
+          }}>
           <DialogTitle
           >Типи пісень</DialogTitle>
           <IconButton
@@ -244,13 +288,16 @@ export function OpenSortButton() {
           >Назад
           </IconButton>
         </DialogActions>
-        <DialogContent>
+        <DialogContent className="type-of-song">
           <SortOfSongGimn />
+          <SortOfSongNarodni />
           <SortOfSongPovstanska />
           <SortOfSongBogorodychna />
           <SortOfSongDoHrysta />
           <SortOfSongBoga />
           <SortOfSongStrasni />
+          <SortOfSongVoskresni />
+          <SortOfSongKoljadky />
           <SortOfSongInshiCerkovni />
           <SortOfSongSvustyn />
         </DialogContent>
