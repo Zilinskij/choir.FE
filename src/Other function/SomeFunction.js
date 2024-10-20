@@ -448,8 +448,7 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
 
       const dataWithNotes = await Promise.all(
         jsonData.map(async (item) => {
-          const notesResponse = await axios.post(`${apiUrl}/get-notes`, { nazva: item.nazva });
-          return { ...item, hasNotes: notesResponse.data.notes };
+          return { ...item, hasNotes: true };
         })
       );
 
@@ -541,7 +540,7 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
               >Назад
               </IconButton>
               <ul
-                style={{ listStyleType: 'none',}}
+                style={{ listStyleType: 'none', }}
               >
 
                 {currentPageData.map((item, index) => (
@@ -772,13 +771,13 @@ export function Nagorody({ apiUrl }) {
                 key={index}>
                 <li className='li-my'
                   style={{
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  backgroundColor: 'white',
-                  width: 'auto',
-                  fontSize: '1em',
-                  marginBottom: '5px'
-                }}
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    backgroundColor: 'white',
+                    width: 'auto',
+                    fontSize: '1em',
+                    marginBottom: '5px'
+                  }}
                   onClick={() => handleNagorodaClick(nagoroda.namenagoroda)}>
                   {nagoroda.namenagoroda}
                 </li>
@@ -872,13 +871,13 @@ export function Fotos({ apiUrl }) {
                 key={index}>
                 <li className='li-my'
                   style={{
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  backgroundColor: 'white',
-                  width: 'auto',
-                  fontSize: '1em',
-                  marginBottom: '5px'
-                }}
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    backgroundColor: 'white',
+                    width: 'auto',
+                    fontSize: '1em',
+                    marginBottom: '5px'
+                  }}
                   onClick={() => handleFotoClick(foto.namefotos)}>
                   {foto.namefotos}
                 </li>
