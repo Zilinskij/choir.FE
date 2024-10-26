@@ -172,6 +172,14 @@ export function SortOfSongKoljadky() {
   )
 }
 
+export function SortOfSongPohoronni() {
+  let zapyt = "/pohoron";
+  let typeOfSong = "Похоронні";
+  return (
+    <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} />
+  )
+}
+
 
 export function OpenSearchButton() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -298,6 +306,7 @@ export function OpenSortButton() {
           <SortOfSongStrasni />
           <SortOfSongVoskresni />
           <SortOfSongKoljadky />
+          <SortOfSongPohoronni />
           <SortOfSongInshiCerkovni />
           <SortOfSongSvustyn />
         </DialogContent>
