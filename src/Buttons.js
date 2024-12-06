@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { SongSearchByNazva, SortOfSongs } from "./Other function/SomeFunction";
 import { SongSearch } from "./Other function/SomeFunction";
 // import { ReactComponent as IconClose } from "./images/cross-close.svg";
-import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { IconButton } from '@mui/material';
 
 export function HeadBtn({ text }) {
   function handlePlayClick() {
@@ -180,6 +178,29 @@ export function SortOfSongPohoronni() {
   )
 }
 
+export function SortOfSongShchedrivky() {
+  let zapyt = "/shchedra";
+  let typeOfSong = "Щедрівки";
+  return (
+    <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} />
+  )
+}
+
+export function SortOfSongVinshuvannya() {
+  let zapyt = "/vinsha";
+  let typeOfSong = "Віншування";
+  return (
+    <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} />
+  )
+}
+
+export function SortOfSongSvustyn() {
+  let zapyt = "/svustyn";
+  let typeOfSong = "Обробки Р.Свистуна";
+  return (
+    <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} />
+  )
+}
 
 export function OpenSearchButton() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -217,108 +238,4 @@ export function OpenSearchByNazvaButton() {
       {isSearchOpen && <SongSearchByNazva />}
     </div>
   );
-}
-
-/* Моє пробне модальне вікно для функції сортування */
-
-// export function SimpleModal({ isOpen, onClose, children }) {
-//   return (
-//     <>
-//         {isOpen && (
-//           <div className="modal-test">
-//             <div className="modal-wrapper">
-//               <div className="modal-content">
-//                 <button
-//                   className="modal-close-button"
-//                   onClick={() => onClose()}
-//                 >
-//                   <IconClose />
-//                 </button>
-//                 {children}
-//               </div>
-//             </div>
-//           </div>
-//         )}
-//     </>
-//   );
-// }
-
-export function OpenSortButton() {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-
-  const handleButtonClick = () => {
-    setIsSearchOpen(true);
-  };
-
-  const handleClose = () => {
-    setIsSearchOpen(false);
-  }
-
-  return (
-    <div>
-      <button
-        className='button'
-        onClick={handleButtonClick}
-      >
-        Типи пісень
-      </button>
-      <Dialog
-        open={isSearchOpen}
-        onClose={handleClose}
-        fullScreen
-        PaperProps={{
-          style: {
-            backgroundColor: '#f5f4f2'
-          }
-        }}
-      >
-        <DialogActions
-          style={{
-            display: 'flex',
-            justifyContent: 'space-around',
-            padding: '0.3em',
-            backgroundColor: '#FFFAFA'
-          }}>
-          <DialogTitle
-          >Типи пісень</DialogTitle>
-          <IconButton
-            onClick={handleClose}
-            size='small'
-            style={{
-              borderRadius: '0.3em',
-              backgroundColor: '#b5e1f5',
-              color: '#050505',
-              boxShadow: '0em 0em 0.15em 0.15em #b7d9e8',
-              position: 'absolute',
-              right: '1em',
-              top: '0.5em'
-            }}
-          >Назад
-          </IconButton>
-        </DialogActions>
-        <DialogContent className="type-of-song">
-          <SortOfSongGimn />
-          <SortOfSongNarodni />
-          <SortOfSongPovstanska />
-          <SortOfSongBogorodychna />
-          <SortOfSongDoHrysta />
-          <SortOfSongBoga />
-          <SortOfSongStrasni />
-          <SortOfSongVoskresni />
-          <SortOfSongKoljadky />
-          <SortOfSongPohoronni />
-          <SortOfSongInshiCerkovni />
-          <SortOfSongSvustyn />
-        </DialogContent>
-      </Dialog>
-    </div>
-  );
-}
-
-export function SortOfSongSvustyn() {
-  let zapyt = "/svustyn";
-  let typeOfSong = "Обробки Р.Свистуна";
-  return (
-    <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} />
-  )
 }

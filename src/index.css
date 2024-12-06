@@ -15,7 +15,7 @@ body::before {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('./images/fotonoty.jpg');
+  background-image: url('/public/images/fotonoty.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -112,7 +112,7 @@ button:hover {
 @media (min-width: 450px) {
   .type-of-song {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    /* grid-template-columns: repeat(2, 1fr); */
     gap: 1em;
     overflow-x: auto;
   }

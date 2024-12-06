@@ -1,4 +1,5 @@
-import { AllOfSongs, OpenSortButton } from '../Buttons.js';
+import { AllOfSongs } from '../Buttons.js';
+import { OpenSortButton } from '../SortButton.js';
 import { Videos } from '../Other function/SomeFunction.js';
 import { Fotos } from '../Other function/SomeFunction.js';
 
