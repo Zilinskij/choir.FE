@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { SongSearchByNazva, SortOfSongs } from "./Other function/SomeFunction";
 import { SongSearch } from "./Other function/SomeFunction";
 // import { ReactComponent as IconClose } from "./images/cross-close.svg";
+import { Modal, Box } from "@mui/material";
 
 export function HeadBtn({ text }) {
   function handlePlayClick() {
@@ -203,39 +204,69 @@ export function SortOfSongSvustyn() {
 }
 
 export function OpenSearchButton() {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  const handleButtonClick = () => {
-    setIsSearchOpen(!isSearchOpen);
-  };
 
   return (
     <div>
       <button className='button'
-        onClick={handleButtonClick}
+        onClick={handleOpen}
       >
         <i>Пошук пісні по тексту</i>
       </button>
-      {isSearchOpen && <SongSearch />}
+      <>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="song-search-title"
+          aria-describedby="song-search-description"
+        >
+          <Box
+            sx={{
+              position: 'relative',
+              p: 4,
+          }}
+          >
+            <SongSearch />
+          </Box>
+        </Modal>
+      </>
     </div>
   );
 }
 
 export function OpenSearchByNazvaButton() {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  const handleButtonClick = () => {
-    setIsSearchOpen(!isSearchOpen);
-  };
 
   return (
     <div>
       <button className='button'
-        onClick={handleButtonClick}
+        onClick={handleOpen}
       >
         <i>Пошук пісні по назві</i>
       </button>
-      {isSearchOpen && <SongSearchByNazva />}
+      <>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="song-search-title"
+          aria-describedby="song-search-description"
+        >
+          <Box
+            sx={{
+              position: 'relative',
+              p: 4,
+          }}
+          >
+            <SongSearchByNazva />
+          </Box>
+        </Modal>
+      </>
     </div>
   );
 }
