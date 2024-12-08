@@ -8,7 +8,6 @@ import { IconButton, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-import { Slide } from '@mui/material';
 
 let StyledDialogContentText = styled('div')(({ theme }) => ({
   backgroundColor: 'white',
@@ -451,7 +450,7 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
         jsonData.map(async (item) => {
           return { ...item, hasNotes: true };
         })
-      );
+      )
 
       setData(dataWithNotes);
       setShowData(true);
@@ -503,9 +502,7 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
     setCurrentPage(page);
   };
 
-  const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
+
 
   return (
     <div>
@@ -524,7 +521,6 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
             <Dialog
               open={showData}
               fullScreen
-              TransitionComponent={Transition}
               PaperProps={{
                 style: {
                   backgroundColor: '#FFFAFA',
@@ -561,7 +557,7 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
                     <li className='li-my'
                       onClick={() => handleSongClick(index, item.nazva, item.text)}
                       style={{
-                        fontWeight: '600',
+                        fontWeight: '100%',
                         cursor: 'pointer',
                         backgroundColor: 'white',
                         width: 'auto',
