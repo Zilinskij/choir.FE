@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { SortOfSongBoga, SortOfSongBogorodychna, SortOfSongDoHrysta, SortOfSongGimn, SortOfSongInshiCerkovni, SortOfSongKoljadky, SortOfSongNarodni, SortOfSongPohoronni, SortOfSongPovstanska, SortOfSongShchedrivky, SortOfSongStrasni, SortOfSongSvustyn, SortOfSongVinshuvannya, SortOfSongVoskresni } from ".//Buttons.js";
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { IconButton } from '@mui/material';
+
+import { SortOfSongBoga, SortOfSongBogorodychna, SortOfSongDoHrysta, SortOfSongGimn, SortOfSongInshiCerkovni, SortOfSongKoljadky, SortOfSongNarodni, SortOfSongPohoronni, SortOfSongPovstanska, SortOfSongShchedrivky, SortOfSongStrasni, SortOfSongSvustyn, SortOfSongVinshuvannya, SortOfSongVoskresni } from ".//Buttons.js";
 
 
 export function OpenSortButton() {
