@@ -4,7 +4,6 @@ import Stack from '@mui/material/Stack';
 import { Dialog, IconButton } from "@mui/material";
 
 import { ScrollSong } from './ScrollSong';
-import { color } from "framer-motion";
 
 export function SortOfSongs({ zapyt, typeOfSong }) {
     const [data, setData] = useState([]);
