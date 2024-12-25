@@ -138,7 +138,6 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
                                             {index + 1 + (currentPage - 1) * itemsPerPage}. {item.nazva}
                                             <br></br>
                                             <i
-                                                style={{ color:'red' }} 
                                             >{item.dzher}</i>
                                         </li>
                                     </span>
