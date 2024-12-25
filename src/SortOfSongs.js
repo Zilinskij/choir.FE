@@ -4,6 +4,7 @@ import Stack from '@mui/material/Stack';
 import { Dialog, IconButton } from "@mui/material";
 
 import { ScrollSong } from './ScrollSong';
+import { color } from "framer-motion";
 
 export function SortOfSongs({ zapyt, typeOfSong }) {
     const [data, setData] = useState([]);
@@ -135,6 +136,10 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
                                             }}
                                         >
                                             {index + 1 + (currentPage - 1) * itemsPerPage}. {item.nazva}
+                                            <br></br>
+                                            <i
+                                                style={{ color:'red' }} 
+                                            >{item.dzher}</i>
                                         </li>
                                     </span>
                                 ))}
