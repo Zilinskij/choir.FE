@@ -50,9 +50,9 @@ export function SortOfSongs({ zapyt, typeOfSong, image, count }) {
         const countData = async () => {
             setIsLoading(true);
             try {
-                    const response = await fetch(`${apiUrl}${count}`);
-                    const jsonData = await response.json();
-                    setCountResult(jsonData);
+                const response = await fetch(`${apiUrl}${count}`);
+                const jsonData = await response.json();
+                setCountResult(jsonData);
             } catch (error) {
                 console.error('Помилка сумування результатів', error);
             } finally {
@@ -94,11 +94,11 @@ export function SortOfSongs({ zapyt, typeOfSong, image, count }) {
         <div>
             {!showData && (
                 <button
-                className='button'
-                onClick={() => {
-                    fetchData()
-                }}
-                disabled={isLoading}
+                    className='button'
+                    onClick={() => {
+                        fetchData()
+                    }}
+                    disabled={isLoading}
                 >
                     {image}
                     {typeOfSong}
