@@ -5,13 +5,14 @@ import { Dialog, IconButton } from "@mui/material";
 
 import { ScrollSong } from './ScrollSong';
 
-export function SortOfSongs({ zapyt, typeOfSong }) {
+export function SortOfSongs({ zapyt, typeOfSong, image, count }) {
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [showData, setShowData] = useState(false);
     const [selectedNazva, setSelectedNazva] = useState('');
     const [selectedText, setSelectedText] = useState('');
     const [selectedSongIndex, setSelectedSongIndex] = useState(null);
+    const [countResult, setCountResult] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -45,6 +46,22 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
         }
     };
 
+    useEffect(() => {
+        const countData = async () => {
+            setIsLoading(true);
+            try {
+                    const response = await fetch(`${apiUrl}${count}`);
+                    const jsonData = await response.json();
+                    setCountResult(jsonData);
+            } catch (error) {
+                console.error('Помилка сумування результатів', error);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        countData();
+    }, [apiUrl, count]);
+
     const handleHideData = () => {
         setShowData(false);
     };
@@ -77,13 +94,19 @@ export function SortOfSongs({ zapyt, typeOfSong }) {
         <div>
             {!showData && (
                 <button
-                    className='button'
-                    onClick={fetchData}
-                    disabled={isLoading}
+                className='button'
+                onClick={() => {
+                    fetchData()
+                }}
+                disabled={isLoading}
                 >
+                    {image}
                     {typeOfSong}
+                    {countResult !== null && (<p>{countResult[0]?.countSongs || 'Невідомо'}</p>)}
                 </button>
+
             )}
+
             {showData && (
                 <>
                     <div>

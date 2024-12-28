@@ -7,10 +7,10 @@ import { Fotos } from '../ourFiles/Fotos.js';
 export default function Main() {
     return (
         <>
-        <AllOfSongs />
-        <OpenSortButton />
-        <Videos apiUrl={process.env.REACT_APP_API_URL} />
-        <Fotos apiUrl={process.env.REACT_APP_API_URL} />
+            <AllOfSongs />
+            <OpenSortButton />
+            <Videos apiUrl={process.env.REACT_APP_API_URL} />
+            <Fotos apiUrl={process.env.REACT_APP_API_URL} />
         </>
-     )
+    )
 } 
