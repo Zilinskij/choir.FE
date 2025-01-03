@@ -5,7 +5,7 @@ import { Dialog, IconButton } from "@mui/material";
 
 import { ScrollSong } from './ScrollSong';
 
-export function SortOfSongs({ zapyt, typeOfSong, image, count }) {
+export function SortOfSongs({ zapyt, typeOfSong, count }) {
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [showData, setShowData] = useState(false);
@@ -100,7 +100,6 @@ export function SortOfSongs({ zapyt, typeOfSong, image, count }) {
                     }}
                     disabled={isLoading}
                 >
-                    {image}
                     {typeOfSong}
                     {countResult !== null && (<p>{countResult[0]?.countSongs || 'Невідомо'}</p>)}
                 </button>
