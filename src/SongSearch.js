@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { Button } from "@mui/material";
+import { Button, List, Box, ListItem, ListItemText, Typography } from "@mui/material";
 
 import { ScrollSong } from "./ScrollSong";
 
@@ -22,7 +22,7 @@ export function SongSearch() {
     setIsSearching(true);
     try {
       const response = await axios.post(`${apiUrl}/search-nazva`, { searchTerm });
-      setSearchResults(response.data.map((value, index) => ({ id: `nazva-${index}`, value })));
+      setSearchResults(response.data);
       setSelectedSong(null);
       setSongText('');
       setError('');
@@ -40,10 +40,10 @@ export function SongSearch() {
     setSearchTerm('');
   };
 
-  const handleSongClick = async (songId, songName) => {
+  const handleSongClick = async (songId) => {
     try {
-      const response = await axios.post(`${apiUrl}/search-song-text`, { searchTerm: songName });
-      setSelectedSong(songName);
+      const response = await axios.post(`${apiUrl}/search-song-text`, { searchTerm: songId });
+      setSelectedSong(songId);
       setSongText(response.data[0]);
       setIsModalOpen(true);
     } catch (error) {
@@ -60,68 +60,122 @@ export function SongSearch() {
 
   return (
     <div>
-      <input
-        type="text"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            handleSearch();
-          }
-        }}
-        style={{
-          width: '40%',
-          marginRight: '2%',
-          height: '2.5em',
-          marginBotton: '3em',
+      <Box
+        sx={{
+          width: '100%',
+          height: '100%',
+          padding: '3px 6px',
           borderRadius: '0.5em',
-          fontSize: '1.2em'
-        }} />
-      <Button onClick={() => {
-        handleSearch();
-      }}
-        size="small"
-        variant="outlined"
-        disabled={isSearching}
-        sx={{ color: 'green', backgroundColor: 'lightgreen' }}>
-        Пошук
-      </Button>
-      <Button
-        onClick={() => { clearResults() }}
-        size="small"
-        variant="outlined"
-        disabled={isSearching}
-        sx={{ marginLeft: '2%', color: 'red', backgroundColor: 'pink' }}>
-        Очистити
-      </Button>
-      {isSearching && <p>Зачекайте, результати шукаються...</p>}
-      <div style={{ position: 'relative' }}>
-        <ol>
-          {searchResults.map((result) => (
-            <span
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-start'
+          bgcolor: 'background.paper',
+          display: 'flex',
+          justifyContent: 'space-between'
+        }}
+      >
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleSearch();
+            }
+          }}
+          style={{
+            width: '70%',
+            height: '1.8em',
+            borderRadius: '6px',
+            fontSize: '1.2em',
+            margin: '0px 3px'
+          }}
+        />
+        <Button onClick={() => {
+          handleSearch();
+        }}
+          size="small"
+          variant="outlined"
+          disabled={isSearching}
+          sx={{
+            color: 'green',
+            backgroundColor: 'lightgreen',
+            margin: '0px 3px'
+
+          }}>
+          Пошук
+        </Button>
+        <Button
+          onClick={() => { clearResults() }}
+          size="small"
+          variant="outlined"
+          disabled={isSearching}
+          sx={{
+            color: 'red',
+            margin: '0px 3px',
+            backgroundColor: 'pink'
+          }}>
+          Очистити
+        </Button>
+      </Box>
+      {isSearching}
+      <Box
+        sx={{
+          marginTop: '0.5em',
+          width: '100%',
+          height: '100%',
+          padding: '10px',
+          borderRadius: '0.5em',
+          bgcolor: 'background.paper',
+          overflowY: 'auto',
+          maxHeight: '80vh',
+        }}
+      >
+        <List
+          sx={{
+            listStyleType: 'disc',
+          }}
+          component='ul'>
+          {searchResults.map((result, index) => (
+            <ListItem
+              key={index}
+              onClick={() => handleSongClick(result.nazvapisni, result.typepisni, result.dzerelo)}
+              sx={{
+                border: '0.1em solid lightgrey',
+                borderRadius: '6px',
+                boxShadow: "0em 0em 0.15em 0.15em lightgrey",
+                marginBottom: '0.5em',
+                cursor: 'pointer',
+                ':hover': { bgcolor: 'action hever' }
               }}>
-              <li className='li-my'
-                key={result.id}
-                style={{
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  fontSize: '1em',
-                  backgroundColor: 'white'
-                }} onClick={() => handleSongClick(result.id, result.value)}>
-                {result.value}
-              </li>
-            </span>
+              <ListItemText
+                primary={
+                  <>
+                    <Typography
+                      sx={{
+                        fontSize: '1em',
+                        fontWeight: 'bold'
+                    }}>
+                    {`${index + 1}. ${result.nazvapisni} - `}
+                    </Typography>
+                    <Typography
+                      component='span'
+                      sx={{
+                        fontStyle: 'italic',
+                        fontSize: '0.8em'
+                      }}
+                    >
+                      "{result.typepisni}"
+                      {result.dzherelo && ` - "${result.dzherelo}"`}
+                    </Typography>
+                  </>
+                }
+              />
+            </ListItem>
           ))}
-        </ol>
-      </div>
+        </List>
+      </Box>
       {error && <p>{error}</p>}
 
       <ScrollSong isOpen={isModalOpen} handleClose={handleCloseModal} nazva={selectedSong} text={songText} />
 
     </div>
   );
-}
+} 

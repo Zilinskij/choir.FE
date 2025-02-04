@@ -18,35 +18,6 @@ export function SortOfSongs({ zapyt, typeOfSong, count }) {
     const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
-        const isDataFetched = localStorage.getItem('isDataFetched');
-        if (isDataFetched) {
-            setShowData(false);
-        }
-    }, []);
-
-    const fetchData = async () => {
-        setIsLoading(true);
-        try {
-            const response = await fetch(`${apiUrl}${zapyt}`);
-            const jsonData = await response.json();
-
-            const dataWithNotes = await Promise.all(
-                jsonData.map(async (item) => {
-                    return { ...item, hasNotes: true };
-                })
-            )
-
-            setData(dataWithNotes);
-            setShowData(true);
-            localStorage.setItem('isDataFetched', true);
-        } catch (error) {
-            console.error('Помилка під час отримання даних:', error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
         const countData = async () => {
             setIsLoading(true);
             try {
@@ -58,18 +29,39 @@ export function SortOfSongs({ zapyt, typeOfSong, count }) {
             } finally {
                 setIsLoading(false);
             }
-        }
+        };
         countData();
     }, [apiUrl, count]);
 
-    const handleHideData = () => {
-        setShowData(false);
+    const fetchData = async () => {
+        setIsLoading(true);
+        try {
+            const response = await fetch(`${apiUrl}${zapyt}`);
+            const jsonData = await response.json();
+            setData(jsonData);
+            setShowData(true);
+        } catch (error) {
+            console.error('Помилка під час отримання даних:', error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
-    const handleSongClick = (index, nazva, text) => {
+    const handleSongClick = async (index, nazva) => {
         setSelectedSongIndex(index);
         setSelectedNazva(nazva);
-        setSelectedText(text);
+        setIsLoading(true);
+
+        try {
+            const response = await fetch(`${apiUrl}/getText?songName=${encodeURIComponent(nazva)}`);
+            const result = await response.json();
+            setSelectedText(result?.text || 'Текст відсутній');
+        } catch (error) {
+            console.error('Помилка завантаження тексту пісні:', error);
+            setSelectedText('Не вдалося завантажити текст.');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const handleCloseModal = () => {
@@ -79,113 +71,101 @@ export function SortOfSongs({ zapyt, typeOfSong, count }) {
     };
 
     const totalPages = Math.ceil(data.length / itemsPerPage);
-    let firstIndex = (currentPage - 1) * itemsPerPage;
-    let lastIndex = currentPage * itemsPerPage;
-
+    const firstIndex = (currentPage - 1) * itemsPerPage;
+    const lastIndex = currentPage * itemsPerPage;
     const currentPageData = data.slice(firstIndex, lastIndex);
 
     const handlePageChange = (event, page) => {
         setCurrentPage(page);
     };
 
-
-
     return (
         <div>
             {!showData && (
                 <button
-                    className='button'
-                    onClick={() => {
-                        fetchData()
-                    }}
+                    className="button"
+                    onClick={fetchData}
                     disabled={isLoading}
                 >
                     {typeOfSong}
                     {countResult !== null && (<p>{countResult[0]?.countSongs || 'Невідомо'}</p>)}
                 </button>
-
             )}
 
             {showData && (
-                <>
-                    <div>
-                        <Dialog
-                            open={showData}
-                            fullScreen
-                            PaperProps={{
-                                style: {
-                                    backgroundColor: '#FFFAFA',
-                                }
-                            }}
-                        >
-                            <IconButton
-                                onClick={handleHideData}
-                                size='small'
+                <Dialog
+                    open={showData}
+                    fullScreen
+                    PaperProps={{
+                        style: {
+                            backgroundColor: '#fdefd9',
+                        }
+                    }}
+                >
+                    <IconButton
+                        onClick={() => setShowData(false)}
+                        size="small"
+                        style={{
+                            borderRadius: '0.3em',
+                            backgroundColor: '#b5e1f5',
+                            color: '#050505',
+                            boxShadow: '0em 0em 0.15em 0.15em #b7d9e8',
+                            position: 'absolute',
+                            right: '1em',
+                            top: '0.5em'
+                        }}
+                    >
+                        Назад
+                    </IconButton>
+                    <ul style={{ listStyleType: 'none' }}>
+                        {currentPageData.map((item, index) => (
+                            <span
                                 style={{
-                                    borderRadius: '0.3em',
-                                    backgroundColor: '#b5e1f5',
-                                    color: '#050505',
-                                    boxShadow: '0em 0em 0.15em 0.15em #b7d9e8',
-                                    position: 'absolute',
-                                    right: '1em',
-                                    top: '0.5em'
+                                    display: 'flex',
+                                    justifyContent: 'flex-start',
+                                    alignItems: 'center',
+                                    marginLeft: '-2em'
                                 }}
-                            >Назад
-                            </IconButton>
-                            <ul
-                                style={{ listStyleType: 'none', }}
+                                key={index}
                             >
-
-                                {currentPageData.map((item, index) => (
-                                    <span
+                                <li
+                                    className="li-my"
+                                    onClick={() => handleSongClick(index, item.nazva)}
+                                    style={{
+                                        fontWeight: '100%',
+                                        cursor: 'pointer',
+                                        backgroundColor: 'white',
+                                        width: 'auto',
+                                        fontSize: '1em'
+                                    }}
+                                >
+                                    {index + 1 + (currentPage - 1) * itemsPerPage}.
+                                   {item.nazva}
+                                    <br></br>
+                                    <i
                                         style={{
-                                            display: 'flex',
-                                            justifyContent: 'flex-start',
-                                            alignItems: 'center',
-                                            marginLeft: '-2em'
-                                        }}
-                                        key={index}
-                                    >
-                                        <li className='li-my'
-                                            onClick={() => handleSongClick(index, item.nazva, item.text)}
-                                            style={{
-                                                fontWeight: '100%',
-                                                cursor: 'pointer',
-                                                backgroundColor: 'white',
-                                                width: 'auto',
-                                                fontSize: '1em'
-                                            }}
-                                        >
-                                            {index + 1 + (currentPage - 1) * itemsPerPage}. {item.nazva}
-                                            <br></br>
-                                            <i
-                                            >{item.dzher}</i>
-                                        </li>
-                                    </span>
-                                ))}
-                            </ul>
-                            <div
-                                style={{
-                                    position: 'absolute',
-                                    left: '1em',
-                                    bottom: '0.8em'
-                                }}
-                            >
-                                <Stack spacing={3}>
-                                    <Pagination
-                                        count={totalPages}
-                                        page={currentPage}
-                                        onChange={handlePageChange}
-                                        variant='outlined'
-                                        shape="rounded"
-                                        color="primary"
-                                        siblingCount={1}
-                                    />
-                                </Stack>
-                            </div>
-                        </Dialog>
+                                            fontSize: '0.8em'
+                                        }}>
+                                        {item.typepisni} {item.dzher}
+                                    </i>
+                                </li>
+                            </span>
+                        ))}
+                    </ul>
+                    <div style={{ position: 'absolute', left: '1em', bottom: '0.8em' }}>
+                        <Stack spacing={3}>
+                            <Pagination
+                                count={totalPages}
+                                page={currentPage}
+                                onChange={handlePageChange}
+                                variant="outlined"
+                                shape="rounded"
+                                color="primary"
+                                siblingCount={1}
+                            />
+                        </Stack>
                     </div>
-                </>
+                </Dialog>
             )}
             {isLoading && <p>Завантаження даних...</p>}
             {selectedSongIndex !== null && (

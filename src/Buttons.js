@@ -1,9 +1,39 @@
 import { useState } from "react";
-import { Modal, Box } from "@mui/material";
+import { Modal, Box, Button } from "@mui/material";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import { SongSearch } from "./SongSearch";
 import { SortOfSongs } from "./SortOfSongs";
 import { Bogimg, Bogorodimg, Cerkvaimg, Himnimg, Hrystosimg, Koljadimg, Narodniimg, Pohoronimg, Povstanskiimg, Shchedrivkyimg, Strasniimg, Vinshivkyimg, Voskresniimg } from "./ImageComponents/Image.js";
+
+export function RegisterButton() {
+  const navigate = useNavigate();
+  return (
+    <Button
+      variant="contained"
+      color="primary"
+      onClick={() => navigate('/register')}
+    >
+      Реєстрація
+    </Button>
+  )
+}
+
+export function AutorizationButton() {
+  const navigate = useNavigate();
+  const handleLoginClick = () => {
+    navigate('/login')
+  }
+  return (
+    <Button
+      variant="contained"
+      color="primary"
+      onClick={handleLoginClick}>
+      Авторизація
+    </Button>
+  )
+}
 
 export function OpenSearchButton() {
   const [open, setOpen] = useState(false);
@@ -54,7 +84,7 @@ export function AllOfSongs() {
   let typeOfSong = "Всі пісні";
   let count = '/count-vsipisni';
   return (
-    <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} count={count}/>
+    <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} count={count}  />
   )
 }
 
@@ -135,9 +165,9 @@ export function SortOfSongVoskresni() {
   let zapyt = "/voskresni";
   let typeOfSong = "Воскресні";
   let count = '/count-voskresni';
-  let image = <Voskresniimg/>
+  let image = <Voskresniimg />
   return (
-    <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} count={count} image={image}/>
+    <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} count={count} image={image} />
   )
 }
 
@@ -145,9 +175,9 @@ export function SortOfSongNarodni() {
   let zapyt = "/narodni";
   let typeOfSong = "Народні";
   let count = '/count-narodna';
-  let image = <Narodniimg/>
+  let image = <Narodniimg />
   return (
-    <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} count={count} image={image}/>
+    <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} count={count} image={image} />
   )
 }
 
@@ -165,9 +195,9 @@ export function SortOfSongPohoronni() {
   let zapyt = "/pohoron";
   let typeOfSong = "Похоронні";
   let count = '/count-pohoronni';
-  let image = <Pohoronimg/>
+  let image = <Pohoronimg />
   return (
-    <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} count={count} image={image}/>
+    <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} count={count} image={image} />
   )
 }
 
@@ -175,9 +205,9 @@ export function SortOfSongShchedrivky() {
   let zapyt = "/shchedra";
   let typeOfSong = "Щедрівки";
   let count = '/count-shchedrivka';
-  let image = <Shchedrivkyimg/>
+  let image = <Shchedrivkyimg />
   return (
-    <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} count={count} image={image}/>
+    <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} count={count} image={image} />
   )
 }
 
@@ -185,9 +215,9 @@ export function SortOfSongVinshuvannya() {
   let zapyt = "/vinsha";
   let typeOfSong = "Віншування";
   let count = '/count-vinsha';
-  let image = <Vinshivkyimg/>
+  let image = <Vinshivkyimg />
   return (
-    <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} count={count} image={image}/>
+    <SortOfSongs zapyt={zapyt} typeOfSong={typeOfSong} count={count} image={image} />
   )
 }
 
